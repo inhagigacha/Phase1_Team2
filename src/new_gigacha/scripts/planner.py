@@ -4,7 +4,6 @@ from lib.planner_utils.path_planner import PathPlanner
 from lib.planner_utils.index_finder import IndexFinder
 from lib.planner_utils.sensor_hub import SensorHub
 from lib.general_utils.read_global_path import read_global_path
-from lib.general_utils.read_local_path import read_local_path
 from lib.general_utils.ego import EgoVehicle
 
 from new_gigacha.msg import Local, Path, Planning_Info
@@ -16,17 +15,15 @@ import rospy
 class Planner:
     def __init__(self):
         rospy.init_node("Planner", anonymous=False)
-        print(f"Planner: Initializing Planner...")
+        # print(f"Planner: Initializing Planner...")
         self.ego = EgoVehicle()
-        #self.ego.global_path = read_global_path('songdo', 'parking')
-        self.ego.global_path = read_global_path('songdo', 'global_simul')
-        self.ego.local_path = read_local_path('songdo','parking_only_simul')
+        # self.ego.global_path = read_global_path('songdo', 'parking')
+        self.ego.global_path = read_global_path('songdo', 'parking_simul')
 
         self.sensor_hub = SensorHub(self.ego)
         self.path_planner = PathPlanner(self.ego)
-        self.mission_planner = MissionPlanner(self.ego)
         self.whereami = IndexFinder(self.ego)
-
+        self.mission_planner = MissionPlanner(self.ego)
         self.planning_pub = rospy.Publisher("/planner", Planning_Info, queue_size=1)
         self.planning_msg = Planning_Info()
 
@@ -40,15 +37,15 @@ class Planner:
         # print(self.ego.obs_map)
         self.whereami.run()
         self.mission_planner.run()
-        #self.path_planner.run()
+        self.path_planner.run()
 
 
         self.publish_planning_info()
 
-        print(f'Ego index: {self.ego.index}')
+        # print(f'Ego index: {self.ego.index}')
 
         distance = hypot(self.ego.global_path.x[0]-self.ego.pose.x, self.ego.global_path.y[0]-self.ego.pose.y)
-        print(f"Distance: {distance}")
+        # print(f"Distance: {distance}")
 
 
 if __name__ == "__main__":
