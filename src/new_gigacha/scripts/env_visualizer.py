@@ -28,6 +28,7 @@ class environmentVisualizer:
         self.vis_pose_pub = rospy.Publisher("/vis_pose", Odometry, queue_size=1)
         self.vis_pose_msg = Odometry()
         self.vis_pose_msg.header.frame_id = "map"
+        
 
         rospy.Subscriber('/pose', Local, self.poseCallback)
 
