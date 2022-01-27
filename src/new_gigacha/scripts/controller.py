@@ -1,9 +1,7 @@
 from lib.general_utils.sig_int_handler import Activate_Signal_Interrupt_Handler
-from lib.general_utils.read_global_path import read_global_path
+from lib.general_utils.read_sd_path import read_sd_map
 from lib.controller_utils.pure_pursuit import PurePursuit
 from lib.controller_utils.state import State
-from lib.controller_utils.stanley import Stanley_Method
-from lib.controller_utils.lateral_combined import Combined_Method
 from lib.controller_utils.state_updater import stateUpdater
 from lib.controller_utils.path_updater import pathUpdater
 from lib.controller_utils.longtidudinal_controller import longitudinalController
@@ -21,7 +19,7 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.state = State()
-        self.global_path = read_global_path('songdo', 'parking') # 수정 필요
+        self.global_path = read_sd_map() # 수정 필요
         self.local_path = Path()
         
         self.update_state = stateUpdater(self.state)
@@ -31,13 +29,10 @@ class Controller:
 
 
         self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
-        # self.lat_controller= Stanley_Method(self.state, self.global_path, self.local_path)
-        # self.lat_controller= Combined_Method(self.state, self.global_path, self.local_path)
         # self.curve_check = min(max (self.lat_controller.deaccel(), -27), 27)
         self.lon_controller = longitudinalController(self.state)
 
     def run(self):
-        # self.lat_controller.make_yaw()                 #stanley
         if self.state.mode == "emergency_stop":            
             self.publish_control_info(1, 2)
 
