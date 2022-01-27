@@ -11,7 +11,6 @@ from math import hypot
 import rospy
 
 
-
 class Planner:
     def __init__(self):
         rospy.init_node("Planner", anonymous=False)
