@@ -6,8 +6,8 @@ import csv
 def read_sd_map():
     
     sd_map = [[]]
-    with open("map/x.csv", mode="r") as x_csv_file:
-        with open("map/y.csv", mode="r") as y_csv_file:
+    with open("map/simul/x.csv", mode="r") as x_csv_file:
+        with open("map/simul/y.csv", mode="r") as y_csv_file:
             x_csv_reader = csv.reader(x_csv_file)
             y_csv_reader = csv.reader(y_csv_file)
             
