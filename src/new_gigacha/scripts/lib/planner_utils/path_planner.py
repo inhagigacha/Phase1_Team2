@@ -1,6 +1,6 @@
-from Phase1_Team2.src.new_gigacha.scripts.lib.planner_utils.lane_change import Lane_change
+from lib.planner_utils.lane_change import Lane_change
+from lib.planner_utils.csv_curve_latlon_0127 import cubic
 import rospy
-from lib.new_mapping.csv_curve_latlon_0127 import cubic
 
 class PathPlanner:
     def __init__(self, ego):
