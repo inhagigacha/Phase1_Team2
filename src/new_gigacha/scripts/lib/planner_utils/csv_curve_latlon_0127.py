@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from lib.cubic_spline_planner import calc_spline_course
-from general_utils.read_sd_path import read_sd_map
+from lib.planner_utils.cubic_spline_planner import calc_spline_course
+from lib.general_utils.read_sd_path import read_sd_map
 
 
 def cubic(cs, cd): # args에는 1,2,3,4,5,6 등 막 들어 수있음
