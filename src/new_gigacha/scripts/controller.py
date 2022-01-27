@@ -22,26 +22,29 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.state = State()
-        self.global_path = read_global_path('songdo', 'parking')
-        self.local_path = Path()
+        self.global_path = read_global_path('songdo', 'global_simul')
+        self.parking_path = read_global_path('songdo', 'parking_only_simul')
+        # self.local_path = Path()
         
         self.update_state = stateUpdater(self.state)
         # self.update_local_path = pathUpdater(self.local_path)
 
-        self.state.target_speed = 10.0 #TODO: decided by mission or map
-        
-        self.lat_controller = PID_C(self.state, self.global_path, self.local_path)
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path)
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path
+<<<<<<< HEAD
+        self.state.target_speed = 5.0 #TODO: decided by mission or map
+
+        self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
         # self.lat_controller= Stanley_Method(self.state, self.global_path, self.local_path)
         # self.lat_controller= Combined_Method(self.state, self.global_path, self.local_path)
+>>>>>>> PID_Auto_tuning
         # self.curve_check = min(max (self.lat_controller.deaccel(), -27), 27)
         self.lon_controller = longitudinalController(self.state)
 
     def run(self):
         # self.lat_controller.make_yaw()                 #stanley
+        if self.state.mode == "emergency_stop":            
+=======
         if self.state.mode == "emergency_stop":
+>>>>>>> PID_Auto_tuning
             self.publish_control_info(1, 2)
 
         elif self.state.mode == "stop":
@@ -49,37 +52,43 @@ class Controller:
 
         elif self.state.mode == "backward":
             self.publish_control_info(0, 2)
+<<<<<<< HEAD
+            self.state.target_speed = 2.0           
+        
+        elif self.state.mode == "parking_driving":
+            self.publish_control_info(0, 0)
+            self.state.target_speed = 2.0 
+=======
             self.state.target_speed = 5.0
         
         elif self.state.mode == "parking_driving":
             self.publish_control_info(0, 0)
             self.state.target_speed = 5.0
+>>>>>>> PID_Auto_tuning
             
         else:
             self.publish_control_info(0, 0)
-            self.state.target_speed = 10.0
+            self.state.target_speed = 5.0
             # if self.curve_check > 20 :
             #     self.state.target_speed = 10.0 - abs(self.curve_check)/10
             # else :
-            #     self.state.target_speed = 15.0
+            #     self.state.target_speed = 5.0
 
         print(self.control_msg)
-        # velocity = self.state.target_speed, self.state.speed                                        ####speed graph
-        # print("{0},{1}".format(self.state.target_speed,self.state.speed))
-        # table = np.array([0,1])
-        # route = np.asarray(self.state.target_speed, self.state.speed)  
-        # table = np.append(table, route, axis=0)
-        # np.savetxt("self_control_msg.csv", table, fmt='%f', delimiter=",") 
 
     def publish_control_info(self, estop, gear):
             self.control_msg.emergency_stop = estop
             self.control_msg.gear = gear
             self.control_msg.steer = self.lat_controller.run()
+<<<<<<< HEAD
+            self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()   
+=======
             print(f"steer : {self.control_msg.steer}")
             ####################For PID Tuining
             # self.control_msg.steer = 0 
             #######################################
             self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
+>>>>>>> PID_Auto_tuning
             self.control_pub.publish(self.control_msg)
     
 if __name__ == "__main__":
