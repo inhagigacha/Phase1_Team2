@@ -16,3 +16,4 @@ class EgoVehicle:
         self.global_path = Path()
         self.local_path = Path()
         self.veh_index=0
+        self.lane = 0

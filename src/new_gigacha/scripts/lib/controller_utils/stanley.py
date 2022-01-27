@@ -22,7 +22,6 @@ class Stanley_Method:
     
     def make_yaw(self):
         for i in range(len(self.global_path.x)-1):
-<<<<<<< Updated upstream
             self.yaw.append(atan2(self.global_path.y[i+1]-self.global_path.y[i],\
                 self.global_path.x[i+1]-self.global_path.x[i]))
         # print(self.yaw)
@@ -41,52 +40,14 @@ class Stanley_Method:
     
         min_index = self.state.index
 
-        if self.state.mode == "backward":
-            for i in range(1106,1236):
-                
-                dx = front_x - self.global_path.x[i]
-                dy = front_y - self.global_path.y[i]
-
-                dist = sqrt(dx*dx+dy*dy)
-                
-                if dist < min_dist:
-                    min_dist = dist
-                    min_index = i
-
-        elif self.state.mode != "driving":
-            for i in range(1236):
-                
-                dx = front_x - self.global_path.x[i]
-                dy = front_y - self.global_path.y[i]
-
-                dist = sqrt(dx*dx+dy*dy)
-                
-                if dist < min_dist:
-                    min_dist = dist
-                    min_index = i
-        else:
-            for i in range(n_points):
-                
-                dx = front_x - self.global_path.x[i]
-                dy = front_y - self.global_path.y[i]
-
-                dist = sqrt(dx*dx+dy*dy)
-
-                if dist < min_dist:
-                    min_dist = dist
-                    min_index = i
-
         map_x =  self.global_path.x[min_index]
         map_y =  self.global_path.y[min_index]
         map_yaw = self.yaw[min_index]
         dx = map_x - front_x
         dy = map_y - front_y
     
-        direction = 1
-        if self.state.mode == "backward":
-            direction = -1
 
-        perp_vec = [direction*cos(radians(self.state.heading)+pi/2), direction*sin(radians(self.state.heading)+pi/2)]
+        perp_vec = [cos(radians(self.state.heading)+pi/2), sin(radians(self.state.heading)+pi/2)]
         cte = np.dot([dx, dy], perp_vec)
         
         # if self.state.mode != "driving":
@@ -101,20 +62,16 @@ class Stanley_Method:
         # cte_term = atan2(self.k*cte, self.state.speed)
         cte_term = atan2(self.k*cte,self.state.speed + k_s)
 
+        direction = 1
         # steering
-        if self.state.mode == "backward":                          ############
-            direction = -1
+        # if self.state.mode == "backward":                    ############
+        #     direction = -1
         steer = degrees(yaw_term + cte_term)
 
         print(f"self.state.heading : {self.state.heading}")
         print(f"yaw_term : {degrees(yaw_term)}")
         print(f"cte_term : {degrees(cte_term)}")
         print(f"-----index : {min_index}")
-<<<<<<< HEAD
 
         return max(min((steer)*direction, 27.0), -27.0)
         # return steer
-=======
-        
-        return max(min(steer, 27.0), -27.0)
->>>>>>> PID_Auto_tuning

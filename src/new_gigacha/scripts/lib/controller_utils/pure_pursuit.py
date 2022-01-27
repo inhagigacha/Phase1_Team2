@@ -1,34 +1,33 @@
 from math import hypot, cos, sin, degrees, atan2, radians, pi
 
 class PurePursuit:
-    def __init__(self, state, global_path, parking_path):
+    def __init__(self, state, global_path_x, global_path_y, local_path):
         self.WB = 1.04 # wheel base
         self.k = 0.3 #1.5
         self.lookahead_default = 4.0 #look-ahead default
 
         self.state = state
-        self.global_path = global_path
-        self.local_path = parking_path
+        self.global_path_x = global_path_x
+        self.global_path_y = global_path_y
+        self.local_path = local_path
 
     def run(self):
        
         # if self.state.mode == "local path tracking":
-        #     path = self.local_path
+        #     path.x = self.local_path_x
+        #     path.y = self.local_path_y
         # else:
-        #     path = self.global_path
-
-        if self.state.mode == "parking":
-            path = self.local_path
-        else:
-            path = self.global_path
+        path_x = self.global_path_x
+        path_y = self.global_path_y
 
         if self.state.mode == "driving":
             lookahead = min(self.k * self.state.speed + self.lookahead_default, 6) # look-ahead
-        else:
-            lookahead = 1.0
+        else :
+            lookahead = 1.8                                             ########################
             
         target_index = int(self.state.index + lookahead*10)
-        target_x, target_y = path.x[target_index], path.y[target_index]
+        d = self.state.lane
+        target_x, target_y = path_x[target_index][d], path_y[target_index][d]
         print(f"target_index : {target_index}")
         tmp = degrees(atan2(target_y - self.state.y, target_x - self.state.x)) % 360
 
@@ -45,31 +44,24 @@ class PurePursuit:
         if self.state.mode == "backward" :
             angle = -angle
 
-<<<<<<< HEAD
-        return max(min(degrees(angle), 27.0), -27.0), target_index
-        # return max(min(degrees(angle), 27.0), -27.0)
-=======
         # return max(min(degrees(angle), 27.0), -27.0), target_index
-
         return max(min(degrees(angle), 27.0), -27.0)
->>>>>>> PID_Auto_tuning
         # return angle
 
     
-    def deaccel(self):
+    # def deaccel(self):
         
-        # if self.state.mode == "local path tracking":
-        if self.state.mode == "parking":
-            path = self.local_path
-        else:
-            path = self.global_path
+    #     if self.state.mode == "local path tracking":
+    #         path = self.local_path
+    #     else:
+    #         path = self.global_path
 
-        if self.state.mode == "driving":
-            lookahead = min(self.k * self.state.speed + self.lookahead_default, 6) # look-ahead
-        else :
-            lookahead = 1.8
+    #     if self.state.mode == "driving":
+    #         lookahead = min(self.k * self.state.speed + self.lookahead_default, 6) # look-ahead
+    #     else :
+    #         lookahead = 1.8
 
-        target_index_v = int(self.state.index + lookahead*25)
-        target_x_v, target_y_v = path.x[target_index_v], path.y[target_index_v]
-        curve_check = abs (self.state.heading - degrees(atan2(target_y_v - self.state.y, target_x_v - self.state.x)) % 360  )
-        return curve_check
+    #     target_index_v = int(self.state.index + lookahead*25)
+    #     target_x_v, target_y_v = path.x[target_index_v], path.y[target_index_v]
+    #     curve_check = abs (self.state.heading - degrees(atan2(target_y_v - self.state.y, target_x_v - self.state.x)) % 360  )
+    #     return curve_check

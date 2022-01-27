@@ -1,5 +1,6 @@
-
 from math import hypot
+from lib.planner_utils.lane_change import Lane_change
+from lib.general_utils.read_sd_path import read_sd_map
 
 class IndexFinder:
     def __init__(self, ego):
@@ -7,29 +8,21 @@ class IndexFinder:
         self.save_idx = 0
 
     def run(self):
-        
         min_dis = -1
         min_idx = 0
-
-        if self.ego.mission == "Init":
-            self.path = self.ego.global_path
-            
-        elif self.ego.mission == "parking":
-            self.path = self.ego.local_path
-
-        print(f"Path length: {len(self.path.x)}")
+        
         step_size = 100
-
+        
         for i in range(max(self.ego.index - step_size, 0), self.ego.index + step_size):
             try:
-                dis = hypot(self.path.x[i] - self.ego.pose.x, self.path.y[i] - self.ego.pose.y)
+                dis = hypot(self.ego.global_path.x[i][self.ego.lane] - self.ego.pose.x, self.ego.global_path.y[i][self.ego.lane] - self.ego.pose.y)
             except IndexError:
                 break
             if (min_dis > dis or min_dis == -1) and self.save_idx <= i:
                 min_dis = dis
                 min_idx = i
                 self.save_idx = i
-
-
+        print(f"ego_index : {self.ego.index}, d : {self.ego.lane}")
+   
         self.ego.index = min_idx
-        return self.ego.index
+        return self.ego.index, self.ego.lane
