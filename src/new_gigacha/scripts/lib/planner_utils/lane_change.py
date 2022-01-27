@@ -3,20 +3,20 @@ from time import time
 class Lane_change:
     def __init__(self, ego, d):
         self.ego = ego
-        self.d = d
-        self.check_time = 0
+        self.ego.lane = d
+        self.time_check = 0
         self.check = False
-        
+
     def run(self):
-        if self.check == False :
-            self.check_time = time()
+        if self.check == False:
             self.check = True
-        
-        if time() - self.check_time > 3 and self.check == True :
-            self.d = (self.d + 1) % 2
+            self.time_check = time()
+
+        if time() - self.time_check > 5 and self.check == True :
             self.check = False
-            
-        if self.d == 0 :
+            self.ego.lane = (self.ego.lane + 1) % 2
+        
+        if self.ego.lane == 0 :
             return 0
         else :
             return 1

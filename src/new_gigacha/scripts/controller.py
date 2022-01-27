@@ -19,8 +19,8 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.state = State()
-        self.global_path = read_sd_map() # 수정 필요
-        self.local_path = Path()
+        self.global_path_x, self.global_path_y = read_sd_map()
+        self.local_path = Path() ## 수정필요
         
         self.update_state = stateUpdater(self.state)
         # self.update_local_path = pathUpdater(self.local_path)
@@ -28,7 +28,7 @@ class Controller:
         self.state.target_speed = 5.0 #TODO: decided by mission or map
 
 
-        self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
+        self.lat_controller= PurePursuit(self.state, self.global_path_x, self.global_path_y, self.local_path)  ####수정필요
         # self.curve_check = min(max (self.lat_controller.deaccel(), -27), 27)
         self.lon_controller = longitudinalController(self.state)
 

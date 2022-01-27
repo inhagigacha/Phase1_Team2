@@ -1,6 +1,7 @@
 string mode
 Local local
 int16 index
+int16 lane
 float64[] path_x
 float64[] path_y
 float64[] path_heading

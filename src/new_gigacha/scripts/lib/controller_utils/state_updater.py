@@ -12,6 +12,7 @@ class stateUpdater:
 
     def plannerCallback(self, msg):
         self.state.index = msg.index
+        self.state.lane = msg.lane
         self.state.x = msg.local.x
         self.state.y = msg.local.y
         self.state.heading = msg.local.heading
