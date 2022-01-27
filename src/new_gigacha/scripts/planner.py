@@ -12,11 +12,11 @@ class Planner:
     def __init__(self):
         rospy.init_node("Planner", anonymous=False)
         self.ego = EgoVehicle()
-        self.ego.global_path = read_sd_map()
+        (self.ego.global_path.x,self.ego.global_path.y) = read_sd_map()
 
         self.sensor_hub = SensorHub(self.ego)
-        self.path_planner = PathPlanner(self.ego)
         self.whereami = IndexFinder(self.ego)
+        self.path_planner = PathPlanner(self.ego)
         self.mission_planner = MissionPlanner(self.ego)
         self.planning_pub = rospy.Publisher("/planner", Planning_Info, queue_size=1)
         self.planning_msg = Planning_Info()
