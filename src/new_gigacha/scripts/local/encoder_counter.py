@@ -11,7 +11,7 @@ def signal_handler(sig,frame):
 class Localization():
 	def __init__(self):
 		rospy.init_node('Displacement_right', anonymous=False)
-		self.ser = serial.Serial(port = '/dev/ttyACM1',
+		self.ser = serial.Serial(port = '/dev/encoder',
 		baudrate = 115200,
 		)
 		self.pub = rospy.Publisher('/Displacement_right', Int64, queue_size = 1)
@@ -28,6 +28,11 @@ class Localization():
 				res = self.ser.readline()
 
 		self.pub.publish(int(res))
+		# print(int(res))
+
+
+
+
 
 loc = Localization()
 while not rospy.is_shutdown():
