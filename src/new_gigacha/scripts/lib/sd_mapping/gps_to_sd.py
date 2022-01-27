@@ -1,4 +1,3 @@
-import numpy as np
 import csv
 
 def gps_to_sd():
@@ -15,3 +14,6 @@ def gps_to_sd():
       for s in range(left_lane_x_reader):
         x_writer.writerow([left_lane_x_reader[s], right_lane_x_reader[s]])
         y_writer.writerow([left_lane_y_reader[s], right_lane_y_reader[s]])
+
+if __name__=="main":
+  gps_to_sd()
