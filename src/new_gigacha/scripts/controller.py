@@ -65,7 +65,7 @@ class Controller:
             self.control_msg.emergency_stop = e_stop
             self.control_msg.gear = gear
             self.control_msg.steer = self.lat_controller.run()
-            self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()   
+            self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()
             self.control_pub.publish(self.control_msg)
     
 if __name__ == "__main__":
