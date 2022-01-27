@@ -17,6 +17,6 @@ class Lane_change:
             self.check = False
             
         if self.d == 0 :
-            return "left lane"
+            return 0
         else :
-            return "right lane"
+            return 1
