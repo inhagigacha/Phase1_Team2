@@ -5,6 +5,8 @@ from lib.general_utils.read_sd_path import read_sd_map
 from lib.planner_utils.mission_planner import MissionPlanner
 from lib.planner_utils.path_planner import PathPlanner
 from lib.planner_utils.sensor_hub import SensorHub
+from new_gigacha.msg import Planning_Info
+from lib.planner_utils.lane_change import Lane_change
 
 import rospy
 
@@ -12,12 +14,12 @@ class Planner:
     def __init__(self):
         rospy.init_node("Planner", anonymous=False)
         self.ego = EgoVehicle()
-        (self.ego.global_path.x,self.ego.global_path.y) = read_sd_map()
+        self.ego.global_path.x, self.ego.global_path.y = read_sd_map() ##
 
         self.sensor_hub = SensorHub(self.ego)
         self.whereami = IndexFinder(self.ego)
-        self.path_planner = PathPlanner(self.ego)
-        self.mission_planner = MissionPlanner(self.ego)
+        self.path_planner = PathPlanner(self.ego) ## 
+        # self.mission_planner = MissionPlanner(self.ego)
         self.planning_pub = rospy.Publisher("/planner", Planning_Info, queue_size=1)
         self.planning_msg = Planning_Info()
 
@@ -29,7 +31,7 @@ class Planner:
 
     def run(self):
         self.whereami.run()
-        self.mission_planner.run()
+        # self.mission_planner.run()
         self.path_planner.run()
 
         self.publish_planning_info()

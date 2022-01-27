@@ -6,9 +6,10 @@ class PathPlanner:
     def __init__(self, ego):
         self.ego = ego
         self.d = 1
+
     def run(self):
-        
-        d = Lane_change(self.ego, self.d)
+        cc = Lane_change(self.ego, self.d)
+        d = cc.run()
         if d != self.d:
             self.ego.local_path = cubic(self.ego.index, self.d)
         self.d = d
