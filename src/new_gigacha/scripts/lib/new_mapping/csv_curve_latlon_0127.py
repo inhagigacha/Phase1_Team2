@@ -8,17 +8,15 @@ import sys
 from lib.cubic_spline_planner import calc_spline_course
 from general_utils.read_sd_path import read_sd_map
 
-#simul
-base_lat = 37.239235 
-base_lon = 126.77315833333333
-base_alt = 15.4
 
 def cubic(cs, cd): # args에는 1,2,3,4,5,6 등 막 들어 수있음
     sd_path = read_sd_map()
     start_x, start_y = sd_path[cs][cd]
     end_x, end_y = sd_path[cs+20][not cd]
-    x=[start_x, ((start_x + end_x)/2), end_x]
-    y=[start_y, ((start_x + end_x)/2), end_y]
+    x=[start_x, end_x]
+    y=[start_y, end_y]
 
     cx, cy, cyaw, ck, s = calc_spline_course(x, y, ds=0.1)
-    return(cx, cy, cyaw, ck, s)
+    # plt.scatter(cx,cy)
+    # plt.show
+    return cx, cy
