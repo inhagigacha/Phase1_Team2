@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import csv
 
 def gps_to_sd():
@@ -17,3 +18,9 @@ def gps_to_sd():
 
 if __name__=="main":
   gps_to_sd()
+=======
+import pandas as pd
+d1 = pd.read_csv('C:/Users/ss/Desktop/maps/lane1.csv', header=None,delimiter=" ")
+d2 = pd.read_csv('C:/Users/ss/Desktop/map2/x.csv', header=None,delimiter=" ")
+d2.iloc[:, [0]]=d1[0]
+>>>>>>> Stashed changes
