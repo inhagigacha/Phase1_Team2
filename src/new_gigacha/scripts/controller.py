@@ -21,7 +21,7 @@ class Controller:
         self.control_msg = Control_Info()
 
         self.state = State()
-        self.global_path = read_global_path('songdo', 'parking')
+        self.global_path = read_global_path('songdo', 'parking') # 수정 필요
         self.local_path = Path()
         
         self.update_state = stateUpdater(self.state)
@@ -51,7 +51,6 @@ class Controller:
         elif self.state.mode == "parking_driving":
             self.publish_control_info(0, 0)
             self.state.target_speed = 2.0 
-            
         else:
             self.publish_control_info(0, 0)
             self.state.target_speed = 5.0
@@ -62,8 +61,8 @@ class Controller:
 
         print(self.control_msg)
 
-    def publish_control_info(self, estop, gear):
-            self.control_msg.emergency_stop = estop
+    def publish_control_info(self, e_stop, gear):
+            self.control_msg.emergency_stop = e_stop
             self.control_msg.gear = gear
             self.control_msg.steer = self.lat_controller.run()
             self.control_msg.speed, self.control_msg.brake = self.lon_controller.run()   
