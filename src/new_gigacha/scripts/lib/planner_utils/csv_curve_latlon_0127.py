@@ -10,9 +10,11 @@ from lib.general_utils.read_sd_path import read_sd_map
 
 
 def cubic(cs, cd): # args에는 1,2,3,4,5,6 등 막 들어 수있음
-    sd_path = read_sd_map()
-    start_x, start_y = sd_path[cs][cd]
-    end_x, end_y = sd_path[cs+20][not cd]
+    sd_map_x, sd_map_y = read_sd_map()
+    start_x = sd_map_x[cs][cd]
+    start_y = sd_map_y[cs][cd]
+    end_x = sd_map_x[min(cs+20, 910)][not cd]
+    end_y = sd_map_y[min(cs+20, 910)][not cd]
     x=[start_x, end_x]
     y=[start_y, end_y]
 

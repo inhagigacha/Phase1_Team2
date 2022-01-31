@@ -5,6 +5,7 @@ class State:
         self.mode = "Init"
         self.status ="Ready" #ready, driving
         self.index = -1
+        self.lane = 0
         self.x = -1.0
         self.y = -1.0
         self.heading = -1.0
