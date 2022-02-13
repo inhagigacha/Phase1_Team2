@@ -20,7 +20,7 @@ class Controller:
 
         self.state = State()
         self.global_path_x, self.global_path_y = read_sd_map()
-        self.local_path = Path() ## 수정필요
+        self.local_path = Path() 
         
         self.update_state = stateUpdater(self.state)
         # self.update_local_path = pathUpdater(self.local_path)
@@ -43,7 +43,7 @@ class Controller:
             self.publish_control_info(0, 2)
             self.state.target_speed = 2.0           
         
-        elif self.state.mode == "parking_driving":
+        elif self.state.mode == "driving":
             self.publish_control_info(0, 0)
             self.state.target_speed = 2.0 
         else:

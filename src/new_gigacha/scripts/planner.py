@@ -7,6 +7,7 @@ from lib.planner_utils.path_planner import PathPlanner
 from lib.planner_utils.sensor_hub import SensorHub
 from new_gigacha.msg import Planning_Info
 from lib.planner_utils.lane_change import Lane_change
+from lib.planner_utils.mission1 import Mission1
 
 import rospy
 
@@ -23,6 +24,8 @@ class Planner:
         self.planning_pub = rospy.Publisher("/planner", Planning_Info, queue_size=1)
         self.planning_msg = Planning_Info()
         self.lanechange = Lane_change(self.ego, self.ego.lane)
+        
+        self.mission_1 = Mission1()
 
     def publish_planning_info(self):
         self.planning_msg.index = self.ego.index
@@ -32,12 +35,9 @@ class Planner:
         self.planning_pub.publish(self.planning_msg)
 
     def run(self):
-        self.lanechange.run()
-        self.whereami.run()
-        # self.mission_planner.run()
-        self.path_planner.run()
+        self.whereami.run() # local
+        self.mission_planner.run()
         self.publish_planning_info()
-
 
 if __name__ == "__main__":
     Activate_Signal_Interrupt_Handler()
