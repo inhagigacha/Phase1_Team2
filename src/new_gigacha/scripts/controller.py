@@ -30,10 +30,8 @@ class Controller:
 
         self.state.target_speed = 10.0 #TODO: decided by mission or map
         
-        self.lat_controller = PID_C(self.state, self.global_path, self.local_path)
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path)
-        # self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path
+        # self.lat_controller = PID_C(self.state, self.global_path, self.local_path)
+        self.lat_controller= PurePursuit(self.state, self.global_path, self.local_path) 
         # self.lat_controller= Stanley_Method(self.state, self.global_path, self.local_path)
         # self.lat_controller= Combined_Method(self.state, self.global_path, self.local_path)
         # self.curve_check = min(max (self.lat_controller.deaccel(), -27), 27)
